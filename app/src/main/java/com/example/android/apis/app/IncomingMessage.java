@@ -172,7 +172,7 @@ public class IncomingMessage extends Activity {
         intent.putExtra(IncomingMessageView.KEY_MESSAGE, message);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // The ticker text, this uses a formatted string so our message could be localized
         @SuppressLint("StringFormatMatches") String tickerText = getString(R.string.imcoming_message_ticker_text, message);
