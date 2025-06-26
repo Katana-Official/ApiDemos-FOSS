@@ -172,7 +172,7 @@ public class MmsMessagingDemo extends Activity {
                        .scheme(ContentResolver.SCHEME_CONTENT)
                        .build();
                 final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                        MmsMessagingDemo.this, 0, new Intent(ACTION_MMS_SENT), 0);
+                        MmsMessagingDemo.this, 0, new Intent(ACTION_MMS_SENT), PendingIntent.FLAG_IMMUTABLE);
                 FileOutputStream writer = null;
                 Uri contentUri = null;
                 try {
@@ -225,7 +225,7 @@ public class MmsMessagingDemo extends Activity {
                         .scheme(ContentResolver.SCHEME_CONTENT)
                         .build();
                 final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                        MmsMessagingDemo.this, 0, new Intent(ACTION_MMS_RECEIVED), 0);
+                        MmsMessagingDemo.this, 0, new Intent(ACTION_MMS_RECEIVED), PendingIntent.FLAG_IMMUTABLE);
                 SmsManager.getDefault().downloadMultimediaMessage(getApplicationContext(),
                         locationUrl, contentUri, null/*configOverrides*/, pendingIntent);
             }

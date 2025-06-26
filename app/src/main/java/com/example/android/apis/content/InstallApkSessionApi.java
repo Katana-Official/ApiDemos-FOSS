@@ -71,7 +71,7 @@ public class InstallApkSessionApi extends Activity {
                     Context context = InstallApkSessionApi.this;
                     Intent intent = new Intent(context, InstallApkSessionApi.class);
                     intent.setAction(PACKAGE_INSTALLED_ACTION);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
                     IntentSender statusReceiver = pendingIntent.getIntentSender();
 
                     // Commit the session (this will start the installation workflow).

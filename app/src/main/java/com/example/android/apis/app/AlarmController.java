@@ -94,7 +94,7 @@ public class AlarmController extends Activity {
             // IntentSender to have the intent executed as a broadcast.
             Intent intent = new Intent(AlarmController.this, OneShotAlarm.class);
             PendingIntent sender = PendingIntent.getBroadcast(AlarmController.this,
-                    0, intent, 0);
+                    0, intent, PendingIntent.FLAG_IMMUTABLE);
 
             // We want the alarm to go off 30 seconds from now.
             Calendar calendar = Calendar.getInstance();
@@ -132,7 +132,7 @@ public class AlarmController extends Activity {
             // allow itself to be sent multiple times.
             Intent intent = new Intent(AlarmController.this, RepeatingAlarm.class);
             PendingIntent sender = PendingIntent.getBroadcast(AlarmController.this,
-                    0, intent, 0);
+                    0, intent, PendingIntent.FLAG_IMMUTABLE);
             
             // We want the alarm to go off 30 seconds from now.
             long firstTime = SystemClock.elapsedRealtime();
@@ -159,7 +159,7 @@ public class AlarmController extends Activity {
             // the one that was scheduled.
             Intent intent = new Intent(AlarmController.this, RepeatingAlarm.class);
             PendingIntent sender = PendingIntent.getBroadcast(AlarmController.this,
-                    0, intent, 0);
+                    0, intent, PendingIntent.FLAG_IMMUTABLE);
             
             // And cancel the alarm.
             AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);

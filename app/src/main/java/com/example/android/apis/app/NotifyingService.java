@@ -96,7 +96,7 @@ public class NotifyingService extends Service {
 
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, NotifyingController.class), 0);
+                new Intent(this, NotifyingController.class), PendingIntent.FLAG_IMMUTABLE);
 
         // Set the icon and timestamp.
         // Note that in this example, we do not set the tickerText.  We update the icon enough that

@@ -20,6 +20,7 @@ import java.util.Random;
 
 import com.example.android.apis.R;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -116,10 +117,10 @@ public class IncomingMessage extends Activity {
         // is already an active matching pending intent, cancel it and replace
         // it with the new array of Intents.
         PendingIntent contentIntent = PendingIntent.getActivities(this, 0,
-                makeMessageIntentStack(this, from, message), PendingIntent.FLAG_CANCEL_CURRENT);
+                makeMessageIntentStack(this, from, message), PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         // The ticker text, this uses a formatted string so our message could be localized
-        String tickerText = getString(R.string.imcoming_message_ticker_text, message);
+        @SuppressLint("StringFormatMatches") String tickerText = getString(R.string.imcoming_message_ticker_text, message);
 
         // Set the info for the views that show in the notification panel.
         Notification.Builder notifBuilder = new Notification.Builder(this)
@@ -174,7 +175,7 @@ public class IncomingMessage extends Activity {
                 intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         // The ticker text, this uses a formatted string so our message could be localized
-        String tickerText = getString(R.string.imcoming_message_ticker_text, message);
+        @SuppressLint("StringFormatMatches") String tickerText = getString(R.string.imcoming_message_ticker_text, message);
 
         // Set the info for the views that show in the notification panel.
         Notification.Builder notifBuilder = new Notification.Builder(this)

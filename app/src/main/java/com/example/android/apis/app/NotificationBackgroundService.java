@@ -71,7 +71,7 @@ public class NotificationBackgroundService extends Service {
         private void showNotification(CharSequence text) {
             // The PendingIntent to launch our activity if the user selects this notification
             PendingIntent contentIntent = PendingIntent.getService(this, 0,
-                    new Intent(this, NotificationBackgroundService.class), 0);
+                    new Intent(this, NotificationBackgroundService.class), PendingIntent.FLAG_IMMUTABLE);
 
             // Set the info for the views that show in the notification panel.
             Notification notification = new Notification.Builder(this)

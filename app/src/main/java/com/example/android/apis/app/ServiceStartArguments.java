@@ -176,7 +176,7 @@ public class ServiceStartArguments extends Service {
     private void showNotification(String text) {
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, Controller.class), 0);
+                new Intent(this, Controller.class), PendingIntent.FLAG_IMMUTABLE);
 
         // Set the info for the views that show in the notification panel.
         Notification.Builder noteBuilder = new Notification.Builder(this)

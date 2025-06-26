@@ -14,12 +14,14 @@
      limitations under the License.
 -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Apple"
-          android:showAsAction="always|withText" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="Apple"
+        app:showAsAction="always|withText" />
 
     <item android:title="Orange"
-          android:showAsAction="always|withText">
+        app:showAsAction="always|withText">
 
         <menu>
 
@@ -37,7 +39,7 @@
                 <menu>
                     <item android:id="@+id/d"
                           android:title="Dddddd" />
-                    <item android:id="@+id/d"
+                    <item android:id="@+id/e"
                           android:title="Eeeeee">
                         <menu>
                             <item android:title="Ffffff" />

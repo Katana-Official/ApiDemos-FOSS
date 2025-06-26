@@ -16,6 +16,7 @@
 
 package com.example.android.apis.app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -24,6 +25,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -73,9 +75,12 @@ public class ForegroundService extends Service {
     public void onDestroy() {
         handleDestroy();
         // Make sure our notification is gone.
-        stopForeground(R.string.foreground_service_started);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(R.string.foreground_service_started);
+        }
     }
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         final boolean usingWakelock = ACTION_FOREGROUND_WAKELOCK.equals(intent.getAction());
@@ -84,28 +89,35 @@ public class ForegroundService extends Service {
             CharSequence text = getText(R.string.foreground_service_started);
 
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    new Intent(this, Controller.class), 0);
+                    new Intent(this, Controller.class), PendingIntent.FLAG_IMMUTABLE);
 
             int showMode = (usingWakelock)
                     ? Notification.FOREGROUND_SERVICE_IMMEDIATE
                     : Notification.FOREGROUND_SERVICE_DEFERRED;
             // Set the info for the views that show in the notification panel.  In the
             // wakelock flow, also force the notification to display immediately.
-            Notification notification = new Notification.Builder(this)
+            Notification.Builder notificationBuilder = new Notification.Builder(this)
                     .setSmallIcon(R.drawable.stat_sample)  // the status icon
                     .setTicker(text)  // the status text
                     .setWhen(System.currentTimeMillis())  // the time stamp
                     .setContentTitle(getText(R.string.alarm_service_label))  // the label
                     .setContentText(text)  // the contents of the entry
-                    .setContentIntent(contentIntent)  // The intent to send when clicked
-                    .setForegroundServiceBehavior(showMode)
-                    .build();
+                    .setContentIntent(contentIntent);  // The intent to send when clicked
+//                    .setForegroundServiceBehavior(showMode)
+//                    .build();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                notificationBuilder.setForegroundServiceBehavior(
+                        showMode
+                );
+            }
 
-            startForeground(R.string.foreground_service_started, notification);
+            startForeground(R.string.foreground_service_started, notificationBuilder.build());
 
         } else if (ACTION_BACKGROUND.equals(intent.getAction())
                 || ACTION_BACKGROUND_WAKELOCK.equals(intent.getAction())) {
-            stopForeground(R.string.foreground_service_started);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(R.string.foreground_service_started);
+            }
         }
 
         if (ACTION_FOREGROUND_WAKELOCK.equals(intent.getAction())
@@ -232,11 +244,16 @@ public class ForegroundService extends Service {
                 final Intent intent = new Intent(ForegroundService.ACTION_FOREGROUND);
                 intent.setClass(ctx, ForegroundService2.class);
 
-                PendingIntent pi = PendingIntent.getForegroundService(ctx, 0, intent, 0);
+                PendingIntent pi = null;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    pi = PendingIntent.getForegroundService(ctx, 0, intent, 0);
+                }
                 AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-                am.setExact(AlarmManager.ELAPSED_REALTIME,
-                        SystemClock.elapsedRealtime() + 15_000,
-                        pi);
+                if (pi != null) {
+                    am.setExact(AlarmManager.ELAPSED_REALTIME,
+                            SystemClock.elapsedRealtime() + 15_000,
+                            pi);
+                }
                 Log.i("ForegroundService", "Starting service in 15 seconds");
             }
         };
