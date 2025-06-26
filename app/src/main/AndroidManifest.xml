@@ -3306,6 +3306,16 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.android.apis.app.Camera2Ability"
+            android:enabled="@bool/atLeastKitKat"
+            android:exported="true"
+            android:label="@string/activity_camera"
+            android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
     </application>
 
     <instrumentation android:name=".app.LocalSampleInstrumentation"
